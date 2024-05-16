@@ -1,0 +1,155 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "[UPD!] Jujutsu Chronicles", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local Tab = Window:MakeTab({
+    Name = "Jujutsu Chronicles",
+    Icon = "rbxassetid://6521912815",
+    PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+    Name = "its not full"
+})
+
+OrionLib:MakeNotification({
+    Name = "welcome",
+    Content = "if you want Sukuna Vessl you can buy it from my discord server for 1$",
+    Image = "rbxassetid://6521912815",
+    Time = 20
+})
+
+OrionLib:MakeNotification({
+    Name = "welcome",
+    Content = "Thank you for using my script ",
+    Image = "rbxassetid://6521912815",
+    Time = 5
+})
+
+local isRunning = false
+
+Tab:AddButton({
+    Name = "infstamina",
+    Callback = function()
+        isRunning = not isRunning
+
+        while isRunning do
+            game:GetService("Players").LocalPlayer.Character.Client.Server.RewardStamina:FireServer()
+            wait(0.1)
+        end
+    end
+})
+
+local isRunningCombat = false
+
+Tab:AddButton({
+    Name = "Fast.Attack.Random Dummy",
+    Callback = function()
+        isRunningCombat = not isRunningCombat
+
+        while isRunningCombat do
+            local allDummies = workspace:GetChildren() -- ابحث عن جميع الـ "Dummy" في مساحة العمل
+            local dummies = {}
+            for _, dummy in ipairs(allDummies) do
+                if dummy.Name:lower():find("dummy") then
+                    table.insert(dummies, dummy)
+                end
+            end
+            if #dummies > 0 then
+                local randomDummy = dummies[math.random(1, #dummies)]
+                local args = {
+                    [1] = {
+                        ["Character"] = game:GetService("Players").LocalPlayer.Character,
+                        ["Action"] = "M1",
+                        ["Combo"] = 1,
+                        ["Target"] = randomDummy,
+                        ["BehindPlayer"] = false
+                    }
+                }
+                game:GetService("ReplicatedStorage").Events.CombatEvent:FireServer(unpack(args))
+                wait(0.05) -- انتظر 0.05 ثانية بين الهجومين لجعلهما أسرع
+            else
+                print("No dummies found!")
+                break
+            end
+        end
+    end
+})
+
+Tab:AddButton({
+    Name = "Teleport and Fast Attack Random Dummy",
+    Callback = function()
+        local allDummies = workspace:GetChildren() -- ابحث عن جميع الـ "Dummy" في مساحة العمل
+        local dummies = {}
+        for _, dummy in ipairs(allDummies) do
+            if dummy.Name:lower():find("dummy") then
+                table.insert(dummies, dummy)
+            end
+        end
+        if #dummies > 0 then
+            local randomDummy = dummies[math.random(1, #dummies)]
+            game:GetService("Players").LocalPlayer.Character:MoveTo(randomDummy.Position) -- انتقل إلى الـ "Dummy" المختار
+            wait(0.1) -- انتظر 0.1 ثانية للسماح بالانتقال
+            local args = {
+                [1] = {
+                    ["Character"] = game:GetService("Players").LocalPlayer.Character,
+                    ["Action"] = "M1",
+                    ["Combo"] = 1,
+                    ["Target"] = randomDummy,
+                    ["BehindPlayer"] = false
+                }
+            }
+            game:GetService("ReplicatedStorage").Events.CombatEvent:FireServer(unpack(args)) -- نفذ الهجوم على الـ "Dummy"
+            wait(0.05) -- انتظر 0.05 ثانية قبل تنفيذ الهجوم التالي
+        else
+            print("No dummies found!")
+        end
+    end
+})
+
+local isRunningTrain = false
+
+Tab:AddButton({
+    Name = "autoTrain",
+    Callback = function()
+        isRunningTrain = not isRunningTrain
+
+        while isRunningTrain do
+            local args = {
+                [1] = {
+                    ["Character"] = game:GetService("Players").LocalPlayer.Character,
+                    ["Action"] = "Endurance",
+                    ["MiscData"] = game:GetService("Players").LocalPlayer.UIStats
+                }
+            }
+
+            game:GetService("ReplicatedStorage").Events.CombatEvent:FireServer(unpack(args))
+            wait(0.5)
+        end
+    end
+})
+
+
+Tab:AddButton({
+    Name = "Sukuna Vessel OP",
+    Callback = function()
+        local args = {
+            [1] = {
+                ["NotificationText"] = "Buy it from MY discord :)",
+                ["GradientChoice"] = "System"
+            }
+        }
+
+        game:GetService("Players").LocalPlayer.Character.Client.Server.Notify:FireServer(unpack(args))
+    end    
+})
+
+local Tab2 = Window:MakeTab({ 
+    Name = "Credits",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Section2 = Tab2:AddSection({ 
+    Name = "Discord.name:as_3"
+})
